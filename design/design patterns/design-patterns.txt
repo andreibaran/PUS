@@ -1,0 +1,47 @@
+Getting Input Design Patterns
+==============================
+1. Account Registration
+------------------------------
+Used when you wish to know who the active user is in order to provide personalized content.
+
+In order to access our featured from the application, the user needs to register and create an account. There are different methods of registration: using the regular form or using a 3rd party provider like facebook or twitter.
+
+
+2. Input Feedback
+------------------------------
+Used when the user has entered data into the system and expects to receive feedback on the result of that submission.
+
+All the actions taken by the user will receive feedback via toast messages or input validation messages.
+
+
+Navigation Design Patterns
+==============================
+
+1. Home Link
+------------------------------
+Used when users frequently enter the website through a page other than the home page. The user needs to be able to easily navigate to the starting point or front page of the website.
+
+There is a link to the starting point or front page of the website on the site’s logo on every single page on the website. This is placed in the header of the website.
+
+
+2. Breadcrumbs
+------------------------------
+Used when the user needs to know their location in the website's hierarchical structure in order to possibly browse back to a higher level in the hierarchy.
+
+In first version of the desing, there are Breadcrumbs links that will show exactly to the user where he is at any momment in the page. This is usefull when he want to navigate one step back in the aplication. The disadvantage of this step is that it does not offer any clue regarding the next step.
+
+
+Miscellaneous Design Patterns
+==============================
+1. Adaptable View
+------------------------------
+Used when you want to let the site's presentation of content fit the specific needs of the user.
+
+Use case scenarios:
+- used when a considerable part portion of your potential users have specific technical needs concerning how content is presented. Examples are mobile browsers, small screen resolutions, and monochrome monitors.
+
+- used when a considerable part of your potential users have specific needs to regarding accessibility and how content is presented due to disability. Examples are colour-blindness or poor vision.
+
+The interface can be adaptable based on user preferences. He can increase/decrease the font used, change the color scheme or use a certain layout. This is done in version 3 of the application.
+
+Source: http://ui-patterns.com/patterns
