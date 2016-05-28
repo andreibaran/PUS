@@ -1,0 +1,1 @@
+For coding styles, please check https://github.com/johnpapa/gulp-patterns

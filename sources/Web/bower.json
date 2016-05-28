@@ -1,0 +1,32 @@
+{
+  "name": "RemoteMobileAssistant",
+  "version": "1.0.0",
+  "description": "HCI Project",
+  "authors": [
+    "Bogdan Baran", "Laura Asoltanei"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "devDependencies": {},
+  "dependencies": {
+    "jquery": "~2.1.1",
+    "angular": "~1.3.8",
+    "angular-ui-router": "~0.2.13",
+    "angular-local-storage": "^0.2.3",
+    "semantic": "semantic-ui#^2.1.8",
+    "toastr": "^2.1.2"
+  },
+  "overrides": {
+    "semantic": {
+      "main": [
+        "dist/semantic.css",
+        "dist/semantic.js",
+        "dist/themes/default/assets/fonts/*",
+        "dist/themes/default/assets/images/*"
+      ]
+    }
+  }
+}
