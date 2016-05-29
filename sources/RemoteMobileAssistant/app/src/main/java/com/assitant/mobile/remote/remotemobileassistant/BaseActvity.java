@@ -1,17 +1,16 @@
 package com.assitant.mobile.remote.remotemobileassistant;
 
-import android.support.design.widget.FloatingActionButton;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.FrameLayout;
 
 import utils.SessionManager;
 
@@ -21,16 +20,17 @@ public abstract class BaseActvity extends AppCompatActivity
 
     SessionManager session;
 
+    protected FrameLayout frameLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.drawer_base);
+
+        frameLayout = (FrameLayout)findViewById(R.id.content_frame);
 
         session = new SessionManager(getApplicationContext());
         session.checkLogin();
-
-        //TextView userEmail = (TextView) findViewById(R.id.user_email);
-        //userEmail.setText(session.getUserEmail());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -44,8 +44,6 @@ public abstract class BaseActvity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
-
-    protected abstract int getLayoutResourceId();
 
     @Override
     public void onBackPressed() {
@@ -85,17 +83,22 @@ public abstract class BaseActvity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home) {
-            // Handle the camera action
-        } else if (id == R.id.nav_sensors) {
+        // default is home
+        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
 
-        } else if (id == R.id.nav_rules) {
-
-        } else if (id == R.id.nav_settings) {
-
-        } else if (id == R.id.nav_logout) {
-            session.logoutUser();
+        switch (id) {
+            case R.id.nav_sensors:  {
+                intent = new Intent(getApplicationContext(), SensorsActivity.class);
+            } break;
+            case R.id.nav_rules:  {
+                intent = new Intent(getApplicationContext(), RulesActivity.class);
+            } break;
+            case R.id.nav_logout: {
+                session.logoutUser();
+            } break;
         }
+
+        startActivity(intent);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
