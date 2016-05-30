@@ -14,7 +14,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import utils.MonitoringService;
+import services.TimerService;
 
 public class HomeActivity extends BaseActvity {
 
@@ -61,15 +61,18 @@ public class HomeActivity extends BaseActvity {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                Intent intent = new Intent(getBaseContext(), TimerService.class);
+
                 Log.i("Switch State=", "" + isChecked);
                 String toastMessage = "Monitoring Service is: ";
                 if (isChecked) {
                     toastMessage += "ON";
+                    startService(intent);
+
                 } else {
                     toastMessage += "OFF";
-                    mMonitoringServiceIntent = new Intent(getBaseContext(), MonitoringService.class);
-                    //mMonitoringServiceIntent.setData(Uri.parse(""));
-                    getBaseContext().startService(mMonitoringServiceIntent);
+                    stopService(intent);
                 }
                 Toast.makeText(getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
             }

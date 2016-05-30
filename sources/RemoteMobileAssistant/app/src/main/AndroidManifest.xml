@@ -38,8 +38,10 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <service
-            android:name="utils.MonitoringService"
-            android:exported="false" />
+            android:name="services.TimerService"
+            android:enabled="true"
+            android:exported="false"
+            android:stopWithTask="false"/>
 
         <meta-data
             android:name="com.google.android.gms.version"

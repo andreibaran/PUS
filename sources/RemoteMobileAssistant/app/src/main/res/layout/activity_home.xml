@@ -22,7 +22,7 @@
 
     <Switch
         android:id="@+id/bgMonitoringService"
-        android:layout_width="352dp"
+        android:layout_width="349dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"

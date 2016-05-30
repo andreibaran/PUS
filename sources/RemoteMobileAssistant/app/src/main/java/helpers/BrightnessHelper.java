@@ -1,4 +1,4 @@
-package utils;
+package helpers;
 
 import android.content.ContentResolver;
 import android.provider.Settings;
