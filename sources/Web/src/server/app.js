@@ -9,6 +9,7 @@ var cors = require('cors');
 var errorHandler = require('./errorHandler')();
 var favicon = require('serve-favicon');
 var logger = require('morgan');
+var dbSetup = require('./dbSetup.js');
 var port = process.env.PORT || 8080;
 
 var environment = process.env.NODE_ENV;
@@ -31,6 +32,8 @@ app.get('/ping', function(req, res, next) {
     console.log(req.body);
     res.send('pong');
 });
+
+dbSetup.setup();
 
 switch (environment) {
     case 'build':
