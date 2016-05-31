@@ -25,12 +25,12 @@ module.exports = {
 		/*
 			Create new user
 			method: post
-			path: /users
+			path: /api/users
 			params: username, password
 			returns: user id
 		*/
 		/**************************************/
-		app.post('/users', function (req, res) {
+		app.post('/api/users', function (req, res) {
 			var message = null;
 			var item = req.body;
 
@@ -42,7 +42,7 @@ module.exports = {
 					};
 				}else if (id == 0){
 					message = {
-						code: 400,
+						code: 409,
 						errorMessage: "The user already exists"
 					};
 				}else{
@@ -60,7 +60,7 @@ module.exports = {
 		/*
 			Checks credentials and returns account details
 			method: post
-			path: /login
+			path: /api/login
 			params: username, password
 			returns: loginObject: 
 				user: id, username, name
@@ -68,7 +68,7 @@ module.exports = {
 				devices [list]:  id, device_name, device_code
 		*/
 		/**************************************/
-		app.post('/login', function (req, res) {
+		app.post('/api/login', function (req, res) {
 			var item = req.body;
 			var message = null;
 			var loginObject = null;
@@ -98,12 +98,12 @@ module.exports = {
 		/*
 			Change a preference from the ones predefined
 			method: put
-			path: /preferences
+			path: /api/preferences
 			params: userId, preferenceKey, preferenceValue
 			returns: 200 if ok
 		*/
 		/**************************************/
-		app.put('/preferences', function (req, res) {
+		app.put('/api/preferences', function (req, res) {
 			var item = req.body;
 			var message = null;
 			var result = null;
