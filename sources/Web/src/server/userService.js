@@ -21,6 +21,15 @@ module.exports = {
 	init : function(theApp){
 		app = theApp;
 
+		/**************************************/
+		/*
+			Create new user
+			method: post
+			path: /users
+			params: username, password
+			returns: user id
+		*/
+		/**************************************/
 		app.post('/users', function (req, res) {
 			var message = null;
 			var item = req.body;
@@ -47,6 +56,18 @@ module.exports = {
 		  	dbServices.createUser(item.username, item.password, item.name, callback);  	
 		});
 
+		/**************************************/
+		/*
+			Checks credentials and returns account details
+			method: post
+			path: /login
+			params: username, password
+			returns: loginObject: 
+				user: id, username, name
+				preferences [list]: name, preference_value
+				devices [list]:  id, device_name, device_code
+		*/
+		/**************************************/
 		app.post('/login', function (req, res) {
 			var item = req.body;
 			var message = null;
@@ -73,6 +94,15 @@ module.exports = {
 			dbServices.login(item.username, item.password, callback);
 		});
 
+		/**************************************/
+		/*
+			Change a preference from the ones predefined
+			method: put
+			path: /preferences
+			params: userId, preferenceKey, preferenceValue
+			returns: 200 if ok
+		*/
+		/**************************************/
 		app.put('/preferences', function (req, res) {
 			var item = req.body;
 			var message = null;

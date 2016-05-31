@@ -94,7 +94,6 @@ module.exports = {
 				callback(null);
 			} 
 		});
-		
 	},
 
 	login : function (username, password, callback){
@@ -103,11 +102,12 @@ module.exports = {
 		loginObject.user = {};
 		loginObject.preferences = [];
 		loginObject.devices = [];
-		connection.query('SELECT username, id from users where username = "'+username+'" and password ="'+password+'"', function(err, result, fields) {
+		connection.query('SELECT username, id, name from users where username = "'+username+'" and password ="'+password+'"', function(err, result, fields) {
 			if (!err){
 				if(result.length == 1){
 					loginObject.user.username = result[0].username;
-					loginObject.user.id= result[0].id;
+					loginObject.user.id = result[0].id;
+					loginObject.user.name = result[0].name;
 
 					connection.query('select name, preference_value '
 						+'from account_preferences '
@@ -156,6 +156,20 @@ module.exports = {
 				+'where name = "'+preferenceKey+'" and user_id = '+userId+'', function(err, result, fields) {
 			if (!err){
 				console.log("< update preference");
+				callback(true);
+			}else{
+				console.log('# Error at update preference: '+err);
+				callback(null);
+			} 
+		});
+	},
+
+	deleteDeviceFromUser : function(deviceId, userId, callback){
+		console.log("> remove device");
+		connection.query('DELETE from users_devices where device_id = '+deviceId+' and user_id = '+userId+""
+				, function(err, result, fields) {
+			if (!err){
+				console.log("< remove device");
 				callback(true);
 			}else{
 				console.log('# Error at update preference: '+err);
