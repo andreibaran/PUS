@@ -10,8 +10,10 @@ var errorHandler = require('./errorHandler')();
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var dbSetup = require('./dbSetup.js');
-var port = process.env.PORT || 8080;
+var userService = require('./userService.js');
+var deviceService = require('./deviceService.js');
 
+var port = process.env.PORT || 8080;
 var environment = process.env.NODE_ENV;
 
 app.use(favicon(__dirname + '/favicon.ico'));
@@ -24,6 +26,14 @@ app.use(logger('dev'));
 app.use(cors());
 app.use(errorHandler.init);
 
+// ***** services *****
+ 
+    dbSetup.setup();
+    userService.init(app);
+    deviceService.init(app);
+
+// ********************
+
 console.log('About to crank up node');
 console.log('PORT=' + port);
 console.log('NODE_ENV=' + environment);
@@ -33,7 +43,6 @@ app.get('/ping', function(req, res, next) {
     res.send('pong');
 });
 
-dbSetup.setup();
 
 switch (environment) {
     case 'build':
