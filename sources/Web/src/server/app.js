@@ -11,6 +11,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var dbSetup = require('./dbSetup.js');
 var userService = require('./userService.js');
+var deviceService = require('./deviceService.js');
+
 var port = process.env.PORT || 8080;
 var environment = process.env.NODE_ENV;
 
@@ -28,6 +30,7 @@ app.use(errorHandler.init);
  
     dbSetup.setup();
     userService.init(app);
+    deviceService.init(app);
 
 // ********************
 
