@@ -1,7 +1,64 @@
 @textColor: #fff;
-@backgroundColor: #ccc;
+@backgroundColor: #fff;
+@footerTitleColor: rgb(14,203,203);
+@gray: rgb(30,30,30);
 
 body, html {
 	color: @textColor;
 	background-color: @backgroundColor;
+}
+
+a{
+	color: @footerTitleColor;
+}
+
+.footerBox{
+	width: 100%;
+	height: 18vh;
+	background-color: @gray;
+	position: absolute;
+	bottom: 0;
+	display: table-cell;
+  	vertical-align: middle;
+  	text-align: center;
+  	background-image: url("http://docu.smartvisu.de/2.7/pics/bg/rising_smoke_column.png");
+  	background-position: center;
+}
+
+.footerContent{
+	display: block;
+	width: 72%;
+	height: 80%;
+	position: absolute;
+	top: 10%;
+	left: 14%;
+}
+
+.footerElement{
+	width: 33%;
+	height: 100%;
+	float: left;
+	display: inline-block;
+	font-size: 1.9vmin;
+	word-wrap: break-word;
+	overflow-y: hidden;
+	position: relative;
+}
+
+.footerTitle{
+	color: @footerTitleColor;
+	margin-bottom: 10%;
+	margin-top: 5%;
+}
+
+.headerBox{
+	width: 100%;
+	height: 8vh;
+	min-heignt: 50px;
+	background-color: @gray;
+}
+
+.montain{
+	width: 100%;
+	margin-top: -70px;
 }

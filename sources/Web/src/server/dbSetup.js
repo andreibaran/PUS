@@ -29,6 +29,7 @@ var setup = function(){
 	                'id int NOT NULL AUTO_INCREMENT,'+
 	                'device_code varchar(100),'+
 	                'device_name varchar(100),'+
+	                'device_registration_id varchar (255)'+
 	                'PRIMARY KEY(id))', function(err, result){
 	                    if(err) {
 	                        console.log(err);
