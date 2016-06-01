@@ -1,63 +1,36 @@
-<div class = "headerBox">
-	<div class="loginForm">
-	 	<img src="images/logout.png" class="logoutButton" title='Sign out'/>
- 	</div>
-</div>
-
-<div class="loginContentBox">
-	<div class="menuBox">
-		<!-- <img src="/images/logo.png" class="homeLogo"/> -->
-		<div class="menuContent">
-			<div class="menuItem">
-				<img src="images/smartphone.png" class="menuIcon"/>
-				<br/>
-				<label class="menuLabel">Devices</label>
-			</div>
-			<div class="menuItem">
-				<img src="images/share.png" class="menuIcon"/>
-				<br/>
-				<label class="menuLabel">Share</label>
-			</div>
-			<div class="menuItem">
-				<img src="images/settings.png" class="menuIcon"/>
-				<br/>
-				<label class="menuLabel">Settings</label>
-			</div>
-		</div>
-	</div>
-	<div class="pageContent">
-		
-
-
-	<div id= "settingsBox">
-		
-	</div>
-
-
-
-	</div>
-</div>
-
-<div class = "footerBox">
-	<div class = "footerContent">
-		<div class = "footerElement" style = "border-right: 1px solid rgba(255,255,255,0.1)">
-			<label class="footerTitle">ABOUT US</label>
-			<br/>
-			<p style="margin-right: 5%;">Our aim is to provide a tool of real help 
-			for those who want to never lose trace of the people they care about most
-			</p>
-		</div>
-		<div class = "footerElement" style = "border-right: 1px solid rgba(255,255,255,0.1); border-left: 1px solid rgba(1,1,1,0.8)">
-			<label class="footerTitle">FAQ's</label>
-			<br/>
-			<p style="margin-right: 5%; margin-left: 5%">We selected a list with the most frequently asked questions and their answers regarding your remote assistant 
-			<a> here</a></p>
-		</div>
-		<div class = "footerElement" style = "border-left: 1px solid rgba(1,1,1,0.8)">
-			<label class="footerTitle">FIND US on GitHub!</label>
-			<br/>
-			<p style="margin-left: 5%">We like to share our work! If you find it inspiring and of constructive use, please see the source of the application <a href="https://github.com/LauraAsoltanei/PUS">here</a></p>
-		</div>
-	</div>
-	
+<div class="ui two column stackable centered grid container login-container">
+    <div class="eleven wide column">
+        <img class="ui centered huge image" src="/images/logo.png">
+    </div>
+    <div class="five wide column">
+        <h2 class="ui teal image header">
+            <div class="content">
+                Log in to your account
+            </div>
+        </h2>
+        <form class="ui large form">
+            <div class="ui stacked segment">
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="user icon"></i>
+                        <input type="text" placeholder="Username" data-ng-model="vm.credentials.username">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="lock icon"></i>
+                        <input type="password" placeholder="Password" data-ng-model="vm.credentials.password">
+                    </div>
+                </div>
+                <div class="ui fluid large teal submit button" data-ng-click="vm.login()">Login</div>
+            </div>
+            <div class="ui error message"></div>
+            <div data-ng-hide="vm.errorMessage == ''" data-ng-class="(vm.isloggedIn) ? 'ui positive message' : 'ui negative  message'">
+                {{vm.errorMessage}}
+            </div>
+        </form>
+        <div class="ui message">
+            New to us? <a href="#/signup">Sign Up</a>
+        </div>
+    </div>
 </div>

@@ -210,6 +210,20 @@ module.exports = {
 				callback(null);
 			} 
 		});
+	},
+	getDevicesByUser : function(userId, callback) {
+		console.log("> get devices by user");
+
+		connection.query('SELECT d.* '
+			+'from devices d inner join users_devices u on d.id = u.device_id '
+			+'where u.user_id = '+userId+'', function(err, result, fields) {
+			if (!err){
+				callback(result);
+			}else{
+				console.log('# Error at get devices by user: '+err);
+				callback(null);
+			} 
+		});
 	}
 };
 

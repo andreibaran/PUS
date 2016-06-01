@@ -1,7 +1,9 @@
 (function () {
     'use strict';
 
-    var config = {};
+    var config = {
+        apiBaseURL: 'http://localhost:8080/api/'
+    };
 
     angular
         .module('app')

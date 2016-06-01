@@ -3,250 +3,31 @@
 @footerTitleColor: rgb(14,203,203);
 @gray: rgb(30,30,30);
 
-body, html {
-	color: @textColor;
-	background-color: @backgroundColor;
+
+body {
+	background: url(/images/mesh.png);
+    background-repeat: repeat;
+    /*padding-top: 50px;*/
+    font-size: 16px;
 }
 
-body{
-	width: 100%;
-	height: 100vh;
-	position: relative
+@media only screen and (min-width: 1200px) {
+	.ui.grid.container {
+		width: calc(1427px + 2rem)!important;
+	}
 }
 
-a{
-	color: @footerTitleColor;
+.login-container {
+	margin-top: -50px;
+    padding-top: 15% !important;
 }
 
-.footerBox{
-	width: 100%;
-	height: 18vh;
-	background-color: @gray;
-	position: absolute;
-	bottom: 0;
-	display: table-cell;
-  	vertical-align: middle;
-  	text-align: center;
-  	background-image: url("http://docu.smartvisu.de/2.7/pics/bg/rising_smoke_column.png");
-  	background-position: center;
-  	color: white;
-  	z-index: 100;
-}
 
-.footerContent{
-	display: block;
-	width: 72%;
-	height: 80%;
-	position: absolute;
-	top: 10%;
-	left: 14%;
-}
-
-.footerElement{
-	width: 33%;
-	height: 100%;
-	float: left;
-	display: inline-block;
-	font-size: 1.9vmin;
-	word-wrap: break-word;
-	overflow-y: hidden;
-	position: relative;
-}
-
-.footerTitle{
-	color: @footerTitleColor;
-	margin-bottom: 10%;
-	margin-top: 5%;
-}
-
-.headerBox{
-	width: 100%;
-	height: 8vh;
-	min-heignt: 50px;
-	background-color: @gray;
-	position: relative;
-	background-image: url("http://docu.smartvisu.de/2.7/pics/bg/rising_smoke_column.png");
-	background-position: left;
-}
-
-.montain{
-	width: 100%;
-	//background-color: rgb(220,250,255);
-}
-
-.loginContentBox{
-	width: 100%;
-	height: 74vh;
-	float: left;
-	position: relative;
-}
-
-.loginLabels{
-	color: @footerTitleColor;
-	margin-left: 7px;
-	margin-right: 3px;
-}
-
-.loginForm{
-	right: 0;
-	margin-right: 10px;
-	top: 50%;
-	transform: translateY(-50%);
-	position: absolute;
-}
-
-.loginInput{
-	border: none;
-	border-radius: 4px;
-	padding: 3px;
-}
-
-.loginButton{
-	padding: 3px 20px;
-	//color: white;
-	border: 1px solid @footerTitleColor;
-	border-radius: 3px;
-	text-deccoration: none;
-	margin-left: 4px;
-}
-
-.loginButton:hover{
-	padding: 3px 20px;
-	color: @gray;
-	border: none;
-	border-radius: 3px;
-	border: 1px solid @footerTitleColor;
-	text-deccoration: none;
-	background-color: @footerTitleColor;
-}
-
-.loginLogo{
-	width: 55%;
-	margin-top: 8vh;
-	margin-left: 5%;
-	float: left;
-	//transform: translateY(-50%);
-}
-
-.registerBox{
-	float: left;
-	min-width: 250px;
-	width: 25%;
-	height: 60vh;
-	margin-top: 6vh;
-	border: 1px solid rgb(200,200,200);
-	border-radius: 20px;
-	margin-right: 5%;
-	margin-left: 10%;
-	position: relative;
-}
-
-.registerLabel{
-	margin-left: 10%;
-	font-size: 16px;
-	color: @footerTitleColor;
-}
-
-.registerInput{
-	border: 1px solid rgb(180,180,180);
-	padding: 8px 10px;
-	border-radius: 5px;
-	margin-left: 10%;
-	width: 80%;
-}
-
-.registerButton{
-	padding: 4px 40px;
-	//border: 1px solid @footerTitleColor;
-	border-radius: 3px;
-	margin-left: 40%;
-	transform: translateX(-50%);
-	margin-top: 50%;
-	transform: translateY(-50%);
-	background-color: @gray;
-	color:white;
-	//display: inline-block;
-}
-
-.registerButton:hover{
-	background-color: @footerTitleColor;
-	color:white;
-}
-
-.logoutButton{
-	margin-right: 5px;
-}
-
-.menuBox{
-	height: 74vh;
-	float: left;
-	display: inline-block;
-	//min-width: 120px;
-	width: 12%;
-	background-color: @gray;
-	-webkit-box-shadow: 7px -1px 22px -10px rgba(0,0,0,0.75);
-	-moz-box-shadow: 7px -1px 22px -10px rgba(0,0,0,0.75);
-	box-shadow: 7px -1px 22px -10px rgba(0,0,0,0.75);
-	/*background-image: url("http://docu.smartvisu.de/2.7/pics/bg/rising_smoke_column.png");
-  	//background-position: center;*/
-  	position: relative;
-}
-
-.homeLogo{
-	width: 110%;
-	background-color: white;
-	float:left;
-	height: 14.06vh;
-	padding: 2vh 0;
-
-}
-
-.menuContent{
-	height: 59.94vh;
-	width: 100%;
-	position: absolute;
-	bottom: 0;
-}
-
-.menuItem{
-	height: 19.98vh;
-	width: 100%;
-	-webkit-box-shadow: inset 1px -7px 7px -7px rgba(8,8,8,1);
--moz-box-shadow: inset 1px -7px 7px -7px rgba(8,8,8,1);
-box-shadow: inset 1px -7px 7px -7px rgba(8,8,8,1);	
-}
-
-.menuIcon{
-	margin-left: 50%;
-    transform: translateX(-50%);
-    margin-top: 15%;
-    height: 40%;
-}
-
-.menuLabel{
-	color: @footerTitleColor;
-    display: inline-block;
-    margin-left: 50%;
-    transform: translateX(-50%);
-    margin-top: 5%;
-}
-
-.menuItem:hover{
-	-webkit-box-shadow: inset 0px 0px 7px 1px rgba(14,203,203,1);
-	-moz-box-shadow: inset 0px 0px 7px 1px rgba(14,203,203,1);
-	box-shadow: inset 0px 0px 7px 1px rgba(14,203,203,1);
-}
-
-.pageContent{
-	width: 80%;
-	height: 70vh;
-	margin-left: 15%;
-	margin-top: 2vh;
-} 
-
-#settingsBox{
-	width: 100%;
-	height: 100%;
-	float: left;
-	background-color: blue;
+@media (min-height: 320px) {
+  .ui.footer.form-page { /* Increased specificity for SO snippet priority */
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding-bottom: 30px;
+  }
 }
