@@ -5,9 +5,9 @@
         .module('app').
         factory('AuthService', AuthService);
 
-    AuthService.$inject = ['localStorageService', '$http', 'Session', 'config', 'logger'];
+    AuthService.$inject = ['localStorageService', '$http', '$q', 'Session', 'config', 'logger'];
     /* @ngInject */
-    function AuthService(localStorageService, $http, Session, config, logger) {
+    function AuthService(localStorageService, $http, $q, Session, config, logger) {
         var service = {
             login: login,
             logout: logout,
@@ -22,25 +22,24 @@
 
         function login(username, password) {
 
-            var dummyUsers = [
-                {
-                    username: 'andrei.baran@info.uaic.ro',
-                    password: 'andrei'
-                }, 
-                {
-                    username: 'laura.asoltanei@info.uaic.ro',
-                    password: 'laura'
-                }
-            ];
+            var requestData = {
+                username: username,
+                password: password,
+            };
 
-            angular.forEach(dummyUsers, function(value, key) {
-                if(value.username == username && value.password == password) {
-                    Session.create(username, password);
-                    return true;
+            return $http({
+                method: 'POST',
+                url: config.apiBaseURL + 'login',
+                data: requestData,
+            }).then(function(response) {
+                if(response.data.code == 200) {
+                    return response.data;
+                } else {
+                    return $q.reject(response.data);
                 }
+            }, function(response) {
+                return $q.reject(response.data);
             });
-
-            return false;
         }
 
         function logout() {

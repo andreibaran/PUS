@@ -13,6 +13,7 @@
         vm.credentials = {};
 
         vm.isloggedIn = false;
+        vm.errorMessage = '';
         vm.login = login;
 
         init();
@@ -20,7 +21,6 @@
         //////////////////////////////
 
         function init() {
-            logger.info("Login Page", "", "Test");
             vm.credentials = {
                 username: '',
                 password: ''
@@ -29,23 +29,23 @@
             var session = Session.get();
             if (session != null) {
                 vm.credentials = session;
-                $state.go('home');
+                $state.go('devices');
             }
 
         }
 
-        function login(){
-            alert("login!");
-        }
-
-        function login(credentials) {
+        function login() {
             vm.isloggedIn = true;
             
-            AuthService.login(credentials.username, credentials.password).then(function () {
+            AuthService.login(vm.credentials.username, vm.credentials.password).then(function (response) {
+                console.log(response);
                 vm.isloggedIn = true;
-                $state.go('home');
-            }, function () {
+                Session.create(response.data.user);
+                $state.go('devices');
+            }, function (data) {
+                console.log(data);
                 vm.isloggedIn = false;
+                vm.errorMessage = "Invalid username or password!"
             });
         }
        
