@@ -3,10 +3,11 @@ var dbServices = require('./dbServices.js')
 var app;
 var dbConnection;
 
-var Device = function(id, deviceName, deviceCode){
+var Device = function(id, deviceName, deviceRegistrationID, deviceUUID){
 	this.id = id;
 	this.deviceName = deviceName;
-	this.deviceCode = deviceCode;
+	this.deviceRegistrationID = deviceRegistrationID;
+	this.deviceUUID = deviceUUID;
 }
 
 module.exports = {
@@ -17,12 +18,12 @@ module.exports = {
 		/*
 			Add a device to an user
 			method: post
-			path: /devices/:userId
-			params: device_name, device_code
+			path: /api/users/:userId/devices
+			params: userId
 			returns: deviceId
 		*/
 		/**************************************/
-		app.post('/devices/:userId', function (req, res) {
+		app.post('/api/users/:userId/devices', function (req, res) {
 			var message = null;
 			var item = req.body;
 
@@ -34,8 +35,8 @@ module.exports = {
 				};
 				}else if (id == 0){
 					message = {
-						code: 400,
-						errorMessage: "The device is already on the user's list"
+						code: 200,
+						errorMessage: "The device is already on the user's list. It has been updated"
 					};
 				}else{
 					message = {
@@ -45,19 +46,19 @@ module.exports = {
 				}
 				res.send(JSON.stringify(message));
 			};
-		  	dbServices.addDeviceToUser(item.device_name, item.device_code, req.params.userId, callback);  	
+		  	dbServices.addDeviceToUser(item, req.params.userId, callback);  	
 		});
 
 		/**************************************/
 		/*
 			Removes a device from the user's list
 			method: delete
-			path: /devices/:userId
+			path: /api/users/:userId/devices/:deviceId
 			params: deviceId, userId
 			returns: 200 if ok
 		*/
 		/**************************************/
-		app.delete('/devices/:userId', function (req, res) {
+		app.delete('/api/users/:userId/devices/:deviceId', function (req, res) {
 			var message = null;
 			var item = req.body;
 
@@ -74,7 +75,7 @@ module.exports = {
 				}
 				res.send(JSON.stringify(message));
 			};
-		  	dbServices.deleteDeviceFromUser(item.deviceId, req.params.userId, callback);  	
+		  	dbServices.deleteDeviceFromUser(req.params.deviceId, req.params.userId, callback);  	
 		});
 	}
 };
