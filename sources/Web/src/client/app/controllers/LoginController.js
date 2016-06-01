@@ -34,6 +34,9 @@
 
         }
 
+        function login(){
+            alert("login!");
+        }
 
         function login(credentials) {
             vm.isloggedIn = true;
