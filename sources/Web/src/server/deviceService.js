@@ -11,7 +11,7 @@ var Device = function(id, deviceName, deviceRegistrationID, deviceUUID){
 	this.deviceUUID = deviceUUID;
 }
 
-var commandType = ['SET_BRIGHTNESS_LOWER', 'SET_BRIGHTNESS_GREATER', 'SET_BRIGHTNESS_LIGHT_LOWER', 'SET_BRIGHTNESS_LIGHT_GREATER'];
+var commandType = ['SET_BRIGHTNESS', 'SET_BRIGHTNESS_LOWER', 'SET_BRIGHTNESS_GREATER', 'SET_BRIGHTNESS_LIGHT_LOWER', 'SET_BRIGHTNESS_LIGHT_GREATER'];
 
 module.exports = {
 	init : function(theApp){

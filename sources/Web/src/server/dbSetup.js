@@ -54,6 +54,23 @@ var setup = function(){
 	                    }
 	                });
 
+	connection.query('CREATE TABLE IF NOT EXISTS rules('+
+	                'id int NOT NULL AUTO_INCREMENT,'+
+	                'device_id int NOT NULL,'+
+	                'command_type VARCHAR(255),'+
+	                'brightness_value int DEFAULT "0",'+
+	                'ambient_light_value float(7, 2) DEFAULT "0",'+
+	                'activated TINYINT(1) DEFAULT "0",'+
+	                'PRIMARY KEY(id),' +
+	                'FOREIGN KEY(device_id) REFERENCES devices(id) ON DELETE CASCADE)', function(err, result){
+	                    if(err) {
+	                        console.log(err);
+	                    }
+	                    else{
+	                        console.log("# table rules created");
+	                    }
+	                });
+
 	connection.query('CREATE TABLE IF NOT EXISTS account_preferences ('+
 	                'id int NOT NULL AUTO_INCREMENT,'+
 	                'name VARCHAR(100),'+

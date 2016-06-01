@@ -1,6 +1,113 @@
 <div class="ui segment">
-  <img class="ui small left floated image" src="/images/smartphone.png">
-  <h2 class="ui header">{{vm.device.device_name}}</h2>
-  <p>Audiam quaerendum eu sea, pro omittam definiebas ex. Te est latine definitiones. Quot wisi nulla ex duo. Vis sint solet expetenda ne, his te phaedrum referrentur consectetuer. Id vix fabulas oporteat, ei quo vide phaedrum, vim vivendum maiestatis in.</p>
-   <p>Eu quo homero blandit intellegebat. Incorrupte consequuntur mei id. Mei ut facer dolores adolescens, no illum aperiri quo, usu odio brute at. Qui te porro electram, ea dico facete utroque quo. Populo quodsi te eam, wisi everti eos ex, eum elitr altera utamur at. Quodsi convenire mnesarchum eu per, quas minimum postulant per id.</p>
+	<div class="ui items">
+		<div class="item">
+			<div class="ui small image">
+				<img src="/images/smartphone.png">
+			</div>
+			<div class="middle aligned content">
+				<div class="header">
+					{{vm.device.device_name}}
+				</div>
+				<div class="description">
+					<h3>Device Status</h3>
+					<div class="ui list">
+						<div class="item">
+							<i class="lightbulb icon"></i>
+							<div class="content">
+								Ambient light: <div class="ui red horizontal label">800 lux</div>
+							</div>
+						</div>
+						<div class="item">
+							<i class="sun icon"></i>
+							<div class="content">
+								Brightness <div class="ui yellow horizontal label">78%</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="extra">
+					<div class="ui right floated button">
+						Update Status
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<h3>Rules</h3>
+	<div class="ui form">
+		<div class="three fields">
+			<div class="field">
+				<label>Command Type</label>
+				<div class="ui selection dropdown">
+					<input type="hidden" name="command_type">
+					<i class="dropdown icon"></i>
+					<div class="default text">Command Type</div>
+					<div class="menu">
+						<div class="item" data-value="SET_BRIGHTNESS">SET BRIGHTNESS TO</div>
+						<div class="item" data-value="SET_BRIGHTNESS_LOWER">SET BRIGHTNESS IF IT'S LOWER THAN</div>
+						<div class="item" data-value="SET_BRIGHTNESS_GREATER">SET BRIGHTNESS IF IT'S GREATER THAN</div>
+						<div class="item" data-value="SET_BRIGHTNESS_LIGHT_LOWER">SET BRIGHTNESS IF AMBIENT LIGHT IS LOWER THAN</div>
+						<div class="item" data-value="SET_BRIGHTNESS_LIGHT_GREATER">SET BRIGHTNESS IF AMBIENT LIGHT IS GREATER THAN</div>
+					</div>
+				</div>
+			</div>
+			<div class="field">
+				<label>Brightness Value</label>
+				<div class="ui icon input">
+					<input type="text" placeholder="Brightness Value [0-255]">
+					<i class="sun icon"></i>
+				</div>
+			</div>
+			<div class="field">
+				<label>Ambient Light Thresold Value</label>
+				<div class="ui icon input">
+					<input type="text" placeholder="Ambient Light Value [0-14.000]">
+					<i class="lightbulb icon"></i>
+				</div>
+			</div>
+		</div>
+		<div class="ui submit button">Submit</div>
+
+		<h3>Current Rules</h3>
+		<table class="ui striped table">
+			<thead>
+				<tr>
+					<th>Command Type</th>
+					<th>Brightness Value</th>
+					<th>Ambient Light Thresold Value</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>SET BRIGHTNESS TO</td>
+					<td>150</td>
+					<td>0</td>
+					<td>
+						<div class="tiny ui teal submit button">Activate</div>
+					</td>
+				</tr>
+				<tr>
+					<td>SET BRIGHTNESS IF IT'S LOWER THAN</td>
+					<td>120</td>
+					<td>0</td>
+					<td>
+						<div class="tiny ui teal submit button">Activate</div>
+					</td>
+				</tr>
+				<tr>
+					<td>SET BRIGHTNESS IF AMBIENT LIGHT IS LOWER THAN</td>
+					<td>100</td>
+					<td>500</td>
+					<td>
+						<div class="tiny ui teal submit button">Activate</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
 </div>
+<script type="text/javascript">
+	$('.ui.dropdown').dropdown();
+</script>
