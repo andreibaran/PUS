@@ -28,6 +28,7 @@ import services.RegistrationIntentService;
 import services.SensorBackgroundService;
 import services.TimerBackgroundService;
 import utils.QuickStartPreferences;
+import utils.SensorDataManager;
 import utils.SessionManager;
 import utils.Util;
 
@@ -49,7 +50,8 @@ public class HomeActivity extends BaseActvity {
     };
 
     Switch monitoringSwitch;
-
+    SensorDataManager sensorDataManager;
+    SessionManager mSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,26 +82,35 @@ public class HomeActivity extends BaseActvity {
             }
         });
 
+        sensorDataManager = new SensorDataManager(getApplicationContext());
+        mSession = new SessionManager(getApplicationContext());
+
         monitoringSwitch = (Switch)  findViewById(R.id.bgMonitoringService);
         monitoringSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                Intent intentTimer = new Intent(getBaseContext(), TimerBackgroundService.class);
-                Intent intentSensor = new Intent(getBaseContext(), SensorBackgroundService.class);
+                Util.COMMAND_TYPES cmdType = mSession.getPrefCommandType();
 
                 Log.i("Switch State=", "" + isChecked);
                 String toastMessage = "Monitoring Service is: ";
+
                 if (isChecked) {
                     toastMessage += "ON";
-                    startService(intentTimer);
-                    startService(intentSensor);
+                    if (cmdType == Util.COMMAND_TYPES.SET_BRIGHTNESS || cmdType == Util.COMMAND_TYPES.SET_BRIGHTNESS_LIGHT_LOWER || cmdType == Util.COMMAND_TYPES.SET_BRIGHTNESS_LIGHT_GREATER) {
+                        sensorDataManager.stopBrightnessLightSensorService();
+                        sensorDataManager.startBrightnessAlarmService();
+
+                    } else {
+                        sensorDataManager.stopBrightnessAlarmService();
+                        sensorDataManager.startBrightnessLightSensorService();
+                    }
 
                 } else {
                     toastMessage += "OFF";
-                    stopService(intentTimer);
-                    stopService(intentSensor);
+                    sensorDataManager.stopBrightnessAlarmService();
+                    sensorDataManager.stopBrightnessLightSensorService();
                 }
                 Toast.makeText(getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
             }

@@ -125,4 +125,27 @@ public class SessionManager {
     public boolean isLoggedIn(){
         return pref.getBoolean(IS_LOGIN, false);
     }
+
+    /**
+     * Set Preferences
+     * */
+    public void setPreferences(String commandType, int brightnessValue, float lightSensorValue){
+        editor.putString(QuickStartPreferences.COMMAND_TYPE, commandType);
+        editor.putInt(QuickStartPreferences.BRIGHTNESS_VALUES, brightnessValue);
+        editor.putFloat(QuickStartPreferences.LIGHT_SENSOR_VALUE, lightSensorValue);
+        // commit changes
+        editor.commit();
+    }
+
+    public Util.COMMAND_TYPES getPrefCommandType(){
+        return Util.COMMAND_TYPES.valueOf(pref.getString(QuickStartPreferences.COMMAND_TYPE, "SET_BRIGHTNESS"));
+    }
+
+    public int getPrefBrightnessValue(){
+        return pref.getInt(QuickStartPreferences.BRIGHTNESS_VALUES, 100);
+    }
+
+    public float getPrefLightSensorValue(){
+        return pref.getFloat(QuickStartPreferences.LIGHT_SENSOR_VALUE, 800);
+    }
 }

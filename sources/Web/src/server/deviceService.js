@@ -1,4 +1,5 @@
 var dbServices = require('./dbServices.js')
+var gcmServices = require('./gcmService.js')
 
 var app;
 var dbConnection;
@@ -9,6 +10,8 @@ var Device = function(id, deviceName, deviceRegistrationID, deviceUUID){
 	this.deviceRegistrationID = deviceRegistrationID;
 	this.deviceUUID = deviceUUID;
 }
+
+var commandType = ['SET_BRIGHTNESS', 'SET_BRIGHTNESS_MAX', 'SET_BRIGHTNESS_MIN'];
 
 module.exports = {
 	init : function(theApp){
@@ -76,6 +79,45 @@ module.exports = {
 				res.send(JSON.stringify(message));
 			};
 		  	dbServices.deleteDeviceFromUser(req.params.deviceId, req.params.userId, callback);  	
+		});
+
+		/**************************************/
+		/*
+			Send a messege to a device via GCM
+			method: post
+			path: /api/users/:userId/devices
+			params: userId
+			returns: deviceId
+		*/
+		/**************************************/
+		app.post('/api/users/:userId/devices/:deviceId/sendmessage', function (req, res) {
+			var message = null;
+			var item = req.body;
+
+			var callback = function(device){
+				if(device != null){
+				  	message = {
+						code: 200,
+						data: {
+							commandType: item.command_type, 
+							brightnesValue: item.brightnes_value,
+							lightSensorValue: item.light_sensor_value
+						}
+					};
+					gcmServices.sendMessageToDevice(device.device_registration_id, message); 
+				}else{
+					message = {
+						code: 404,
+						errorMessage: "Device with ID " + req.params.deviceId + " does not exist! Message not sent!"
+					};
+				}
+
+				res.send(JSON.stringify(message));
+			};
+				
+
+			dbServices.getDeviceFromUser( req.params.deviceId, req.params.userId, callback); 
+		  	 	
 		});
 	}
 };

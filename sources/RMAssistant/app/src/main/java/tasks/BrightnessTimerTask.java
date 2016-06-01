@@ -7,6 +7,8 @@ import android.widget.Toast;
 import java.util.TimerTask;
 
 import helpers.BrightnessHelper;
+import utils.SessionManager;
+import utils.Util;
 
 /**
  * Created by Bogdan-WS on 5/30/2016.
@@ -14,9 +16,11 @@ import helpers.BrightnessHelper;
 public class BrightnessTimerTask extends TimerTask {
     Handler mHandler;
     Context mContext;
+    SessionManager mSession;
     public BrightnessTimerTask(Handler handler, Context context) {
         mHandler = handler;
         mContext = context;
+        mSession = new SessionManager(context);
     }
 
     @Override
@@ -29,13 +33,21 @@ public class BrightnessTimerTask extends TimerTask {
                 BrightnessHelper brightnessHelper = new BrightnessHelper(mContext.getContentResolver());
                 int currentBrightness = brightnessHelper.getCurrentBrightnessLevel();
 
-                int ruleMaxBrightnessLevel = 100; // [0-255]
+                Util.COMMAND_TYPES cmdType = mSession.getPrefCommandType();
+                int ruleMaxBrightnessLevel = mSession.getPrefBrightnessValue(); // [0-255]
 
-                if (currentBrightness > ruleMaxBrightnessLevel) {
-                    brightnessHelper.setBrightnessLevel(ruleMaxBrightnessLevel);
-
-                    String msg = "Current brightness: " + currentBrightness;
-                    Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
+                if (cmdType == Util.COMMAND_TYPES.SET_BRIGHTNESS_LOWER) {
+                    if (currentBrightness < ruleMaxBrightnessLevel) {
+                        brightnessHelper.setBrightnessLevel(ruleMaxBrightnessLevel);
+                        String msg = "Current brightness: " + currentBrightness;
+                        Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    if (currentBrightness > ruleMaxBrightnessLevel) {
+                        brightnessHelper.setBrightnessLevel(ruleMaxBrightnessLevel);
+                        String msg = "Current brightness: " + currentBrightness;
+                        Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
