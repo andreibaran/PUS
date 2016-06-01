@@ -1,18 +1,19 @@
 package http;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
 import android.os.AsyncTask;
 import android.util.Log;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import utils.Util;
 
 /**
  * Created by Bogdan-WS on 5/31/2016.
@@ -71,7 +72,6 @@ public class AsyncHttpTask extends AsyncTask<String, Void, JSONObject>{
     }
 
     private static JSONObject convertInputStreamToJSON(InputStream inputStream) {
-        JSONObject jObj = null;
         String json = "";
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -87,14 +87,7 @@ public class AsyncHttpTask extends AsyncTask<String, Void, JSONObject>{
         }
 
         // try parse the string to a JSON object
-        try {
-            jObj = new JSONObject(json);
-        } catch (JSONException e) {
-            Log.e("JSON Parser", "Error parsing data " + e.toString());
-        }
-
-        // return JSON String
-        return jObj;
+        return Util.convertStringToJSONObject(json);
 
     }
 

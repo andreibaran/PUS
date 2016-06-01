@@ -16,14 +16,18 @@ import android.os.PowerManager;
 import android.widget.Toast;
 
 import helpers.BrightnessHelper;
+import utils.SessionManager;
+import utils.Util;
 
 public class SensorBackgroundService extends Service implements SensorEventListener {
 
     private static final String TAG = SensorBackgroundService.class.getSimpleName();
     private SensorManager mSensorManager = null;
+    private SessionManager mSession = null;
+    private Util.COMMAND_TYPES mCmdType;
     private static float previousValue;
-    private float mThresholdMin, mThresholdMax;
-    private int mRuleMinBrightnessLevel, mRuleMaxBrightnessLevel;
+    private float mThresholdLightValue;
+    private int mBrightnessValue;
     private Handler mHandler = new Handler();
 
 
@@ -31,18 +35,16 @@ public class SensorBackgroundService extends Service implements SensorEventListe
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        mSession = new SessionManager(getApplicationContext());
 
         int sensorType = Sensor.TYPE_LIGHT;
 
-        Bundle args = intent.getExtras();
 
-        // get some properties from the intent
-        mThresholdMin = 10;         // measured in lux
-        mThresholdMax = 1000;       // measured in lux
+        mCmdType = mSession.getPrefCommandType();
+        mBrightnessValue = mSession.getPrefBrightnessValue();
+        mThresholdLightValue =  mSession.getPrefLightSensorValue();
+
         previousValue = 0;          // measured in lux
-
-        mRuleMinBrightnessLevel = 100; // [0-255]
-        mRuleMaxBrightnessLevel = 200; // [0-255]
 
         // we need the light sensor
         Sensor sensor = mSensorManager.getDefaultSensor(sensorType);
@@ -69,35 +71,39 @@ public class SensorBackgroundService extends Service implements SensorEventListe
 
         float sensorValue = event.values[0];
 
-        if ((previousValue != sensorValue &&(sensorValue > mThresholdMax || sensorValue < mThresholdMin))) {
+        // if it's a real real change
+        if (Math.abs(previousValue - sensorValue) > 10) {
 
             BrightnessHelper brightnessHelper = new BrightnessHelper(getApplicationContext().getContentResolver());
             int currentBrightness = brightnessHelper.getCurrentBrightnessLevel();
 
-            if(sensorValue > mThresholdMax) {
-                brightnessHelper.setBrightnessLevel(mRuleMaxBrightnessLevel);
-            } else if ( sensorValue < mThresholdMin) {
-                brightnessHelper.setBrightnessLevel(mRuleMinBrightnessLevel);
-            }
-
             final String msg = "NEW brightness: " + currentBrightness + ". Current light sensor value: " + sensorValue;
 
+            if (mCmdType == Util.COMMAND_TYPES.SET_BRIGHTNESS_LIGHT_LOWER) {
+                if (sensorValue < mThresholdLightValue) {
+                    brightnessHelper.setBrightnessLevel(mBrightnessValue);
+                    mHandler.post(new Runnable() {
 
-            // only for showing a toast message
-            mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(),msg, Toast.LENGTH_SHORT).show();
+                        }
 
-                @Override
-                public void run() {
-                    Toast.makeText(getApplicationContext(),msg, Toast.LENGTH_SHORT).show();
+                    });
                 }
+            } else {
+                if (sensorValue > mThresholdLightValue) {
+                    brightnessHelper.setBrightnessLevel(mBrightnessValue);
+                    mHandler.post(new Runnable() {
 
-            });
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(),msg, Toast.LENGTH_SHORT).show();
+                        }
 
-
-            // and a check in between that there should have been a non triggering value before
-            // we can mark a given value as trigger. This is to overcome unneeded wakeups during
-            // night for instance where the sensor readings for a light sensor would always be below
-            // the threshold needed for day time use.
+                    });
+                }
+            }
 
             // wake screen here
             PowerManager pm = (PowerManager) getApplicationContext().getSystemService(getApplicationContext().POWER_SERVICE);
