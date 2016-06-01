@@ -28,6 +28,8 @@ import services.RegistrationIntentService;
 import services.SensorBackgroundService;
 import services.TimerBackgroundService;
 import utils.QuickStartPreferences;
+import utils.SessionManager;
+import utils.Util;
 
 public class HomeActivity extends BaseActvity {
 
@@ -46,8 +48,9 @@ public class HomeActivity extends BaseActvity {
             new String("BRIGHTNESS")
     };
 
-    Intent mMonitoringServiceIntent;
     Switch monitoringSwitch;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,10 +111,7 @@ public class HomeActivity extends BaseActvity {
             @Override
             public void onReceive(Context context, Intent intent) {
                 mRegistrationProgressBar.setVisibility(ProgressBar.GONE);
-                SharedPreferences sharedPreferences =
-                        PreferenceManager.getDefaultSharedPreferences(context);
-                boolean sentToken = sharedPreferences
-                        .getBoolean(QuickStartPreferences.SENT_TOKEN_TO_SERVER, false);
+                boolean sentToken = Util.isDeviceRegisterd(context);
                 if (sentToken) {
                     mInformationTextView.setText(getString(R.string.gcm_send_message));
                 } else {
@@ -124,7 +124,8 @@ public class HomeActivity extends BaseActvity {
         // Registering BroadcastReceiver
         registerReceiver();
 
-        if (checkPlayServices()) {
+        SessionManager session = new SessionManager(getApplicationContext());
+        if (checkPlayServices() && session.isLoggedIn()) {
             // Start IntentService to register this application with GCM.
             Intent intent = new Intent(this, RegistrationIntentService.class);
             startService(intent);

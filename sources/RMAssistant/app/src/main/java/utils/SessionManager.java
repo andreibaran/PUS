@@ -8,6 +8,8 @@ import com.assitant.mobile.remote.remotemobileassistant.LoginActivity;
 
 import java.util.HashMap;
 
+import models.User;
+
 public class SessionManager {
     // Shared Preferences
     SharedPreferences pref;
@@ -27,8 +29,17 @@ public class SessionManager {
     // All Shared Preferences Keys
     private static final String IS_LOGIN = "IsLoggedIn";
 
-    // Email address (make variable public to access from outside)
-    public static final String KEY_EMAIL = "email";
+    // User ID
+    public static final String KEY_USER_ID = "userId";
+
+    // Email address
+    public static final String KEY_USER_EMAIL = "userEmail";
+
+    // Password
+    public static final String KEY_USER_PASSWORD = "userPassword";
+
+    // UserId
+    public static final String KEY_USER_NAME = "userName";
 
     // Constructor
     public SessionManager(Context context){
@@ -40,12 +51,14 @@ public class SessionManager {
     /**
      * Create login session
      * */
-    public void createLoginSession(String email){
+    public void createLoginSession(int id, String email, String password, String name){
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
 
-        // Storing email in pref
-        editor.putString(KEY_EMAIL, email);
+        editor.putInt(KEY_USER_ID, id);
+        editor.putString(KEY_USER_EMAIL, email);
+        editor.putString(KEY_USER_PASSWORD, password);
+        editor.putString(KEY_USER_NAME, email);
 
         // commit changes
         editor.commit();
@@ -78,22 +91,12 @@ public class SessionManager {
     /**
      * Get stored session data
      * */
-    public HashMap<String, String> getUserDetails(){
-        HashMap<String, String> user = new HashMap<String, String>();
+    public User getUser(){
+        if (!this.isLoggedIn()) return null;
 
-        // user email id
-        user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
-
-        // return user
-        return user;
+        return new User(pref.getInt(KEY_USER_ID, 0), pref.getString(KEY_USER_EMAIL, null), pref.getString(KEY_USER_PASSWORD, null), pref.getString(KEY_USER_NAME, null));
     }
 
-    /**
-     * Get stored session data
-     * */
-    public String getUserEmail(){
-        return pref.getString(KEY_EMAIL, "john@doe.com");
-    }
 
     /**
      * Clear session details
