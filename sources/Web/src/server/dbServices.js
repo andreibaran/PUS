@@ -62,15 +62,15 @@ module.exports = {
 		});
 	},
 
-	addDeviceToUser : function(deviceName, deviceCode, userId, callback){
+	addDeviceToUser : function(device, userId, callback){
 		console.log("> add device");
 		connection.query('SELECT * '
 			+'from devices inner join users_devices on devices.id = users_devices.device_id '
-			+'where devices.device_name = "'+deviceName+'" and devices.device_code = "'+deviceCode+'"'
-				+'and users_devices.user_id='+userId+'', function(err, result, fields) {
+			+'where devices.device_uuid = "'+device.device_uuid
+				+'" and users_devices.user_id='+userId+'', function(err, result, fields) {
 			if (!err){
 				if(result.length == 0){
-					connection.query('insert into devices (device_name, device_code) values ("'+deviceName+'","'+deviceCode+'")',function(err, rows) {
+					connection.query('insert into devices (device_uuid, device_name, device_registration_id) values ("'+device.device_uuid+'","'+device.device_name+'","'+device.device_registration_id+'")',function(err, rows) {
 						if (!err){
 							console.log("< add device");
 							connection.query('insert into users_devices (user_id, device_id) values ("'+userId+'","'+rows.insertId+'")',function(err, row) {
@@ -86,8 +86,16 @@ module.exports = {
 						}
 					});
 				}else{
-					console.log("< add device");
-					callback(0);
+					console.log("< update device");
+					connection.query('update devices set device_registration_id = "'+device.device_registration_id+'" where device_uuid = "' + device.device_uuid + '"',function(err, rows) {
+						if (!err){
+							console.log("< update device");
+							callback(0);
+						}else{
+							console.log('# Error at update device: '+err);
+							callback(null);
+						} 
+					});
 				}
 			}else{
 				console.log('# Error at add device: '+err);
@@ -118,9 +126,9 @@ module.exports = {
 									loginObject.preferences.push(rows[i]);
 								}
 							}
-							connection.query('select devices.id, devices.device_name, devices.device_code '
-								+'from devices inner join users_devices on devices.id = users_devices.device_id '
-								+'where users_devices.user_id = '+loginObject.user.id+'',function(err, rowss, flds) {
+							connection.query('select d.* '
+								+'from devices d inner join users_devices u on d.id = u.device_id '
+								+'where u.user_id = '+loginObject.user.id+'',function(err, rowss, flds) {
 								if (!err){
 									if(rowss.length > 0){
 										for(var i=0 ; i<rowss.length ; i++){

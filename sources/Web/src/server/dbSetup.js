@@ -13,7 +13,7 @@ var setup = function(){
 
 	connection.query('CREATE TABLE IF NOT EXISTS users('+
 	                'id int NOT NULL AUTO_INCREMENT,'+
-	                'username VARCHAR(100),'+
+	                'username VARCHAR(100) UNIQUE,'+
 	                'password VARCHAR(100),'+	//TODO : add preferences list
 	                'name VARCHAR(100),'+
 	                'PRIMARY KEY(id))', function(err, result){
@@ -25,32 +25,17 @@ var setup = function(){
 	                    }
 	                });
 
-	connection.query('CREATE TABLE IF NOT EXISTS devices ('+
+	connection.query('CREATE TABLE IF NOT EXISTS devices('+
 	                'id int NOT NULL AUTO_INCREMENT,'+
-	                'device_code varchar(100),'+
-	                'device_name varchar(100),'+
-	                'device_registration_id varchar (255)'+
+	                'device_uuid VARCHAR(100) UNIQUE,'+
+	                'device_name VARCHAR(100),'+
+	                'device_registration_id VARCHAR(255),'+
 	                'PRIMARY KEY(id))', function(err, result){
 	                    if(err) {
 	                        console.log(err);
 	                    }
 	                    else{
 	                        console.log("# table DEVICES created");
-	                    }
-	                });
-
-	connection.query('CREATE TABLE IF NOT EXISTS users_devices('+
-	                'id int NOT NULL AUTO_INCREMENT,'+
-	                'user_id int,'+
-	                'device_id int,'+
-	                'PRIMARY KEY(id),'+
-					'FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,'+
-					'FOREIGN KEY(device_id) REFERENCES devices(id) ON DELETE CASCADE)', function(err, result){
-	                    if(err) {
-	                        console.log(err);
-	                    }
-	                    else{
-	                        console.log("# table USERS_DEVICES created");
 	                    }
 	                });
 
@@ -83,6 +68,25 @@ var setup = function(){
 	                        console.log("# table account_preferences created");
 	                    }
 	                });
+
+	connection.query("INSERT INTO users (username, password, name) VALUES ('andrei.baran@info.uaic.ro', 'andrei', 'Andrei Baran')", function(err, result){
+	                    if(err) {
+	                        console.log(err);
+	                    }
+	                    else{
+	                        console.log("# default user andrei added");
+	                    }
+	                });
+
+	connection.query("INSERT INTO users (username, password, name) VALUES ('laura.asoltanei@info.uaic.ro', 'laura', 'Laura Asoltanei')", function(err, result){
+	                    if(err) {
+	                        console.log(err);
+	                    }
+	                    else{
+	                        console.log("# default user laura added");
+	                    }
+	                });
+
 	dbServices.init(connection);
 };
 
