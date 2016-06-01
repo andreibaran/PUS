@@ -3,11 +3,11 @@
 
     angular
         .module('app')
-        .controller('HomeController', HomeController);
+        .controller('SettingsController', SettingsController);
 
-    HomeController.$inject = ['$state', 'logger'];
+    SettingsController.$inject = ['$state', 'logger'];
     /* @ngInject */
-    function HomeController($state, logger) {
+    function SettingsController($state, logger) {
         var vm = this;
 
         vm.todo = todo;

@@ -29,9 +29,8 @@
     <!-- endbuild -->
 </head>
 <body>
-    <div ng-controller="BaseController as bvm">
-        <div ui-view></div>
-    </div>
+    <div ui-view></div>
+
     <!-- build:js js/lib.js -->
     <!-- bower:js -->
     <script src="/bower_components/jquery/dist/jquery.js"></script>
@@ -53,15 +52,23 @@
 
     <script src="src/client/app/app.routes.js"></script>
 
-    <script src="src/client/app/controllers/BaseController.js"></script>
+    <script src="src/client/app/controllers/DeviceController.js"></script>
 
-    <script src="src/client/app/controllers/HomeController.js"></script>
+    <script src="src/client/app/controllers/DevicesController.js"></script>
 
     <script src="src/client/app/controllers/LoginController.js"></script>
+
+    <script src="src/client/app/controllers/MasterController.js"></script>
+
+    <script src="src/client/app/controllers/SettingsController.js"></script>
+
+    <script src="src/client/app/controllers/ShareController.js"></script>
 
     <script src="src/client/app/directives/whenScrolledDirective.js"></script>
 
     <script src="src/client/app/services/AuthService.js"></script>
+
+    <script src="src/client/app/services/DevicesService.js"></script>
 
     <script src="src/client/app/services/SessionService.js"></script>
 
