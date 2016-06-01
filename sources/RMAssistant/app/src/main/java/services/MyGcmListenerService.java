@@ -11,24 +11,64 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 import com.assitant.mobile.remote.remotemobileassistant.HomeActivity;
 import com.assitant.mobile.remote.remotemobileassistant.R;
 import com.google.android.gms.gcm.GcmListenerService;
+
+import org.json.JSONObject;
+
+import helpers.BrightnessHelper;
+import utils.SensorDataManager;
+import utils.SessionManager;
+import utils.Util;
+
 
 
 public class MyGcmListenerService extends GcmListenerService {
 
     private static final String TAG = "MyGcmListenerService";
 
+    SessionManager sessionManager;
+    SensorDataManager sensorDataManager;
+
     @Override
     public void onMessageReceived(String from, Bundle data) {
-        String message = data.getString("message");
-        Log.d(TAG, "From: " + from);
-        Log.d(TAG, "Message: " + message);
+        sessionManager = new SessionManager(getApplicationContext());
+        sensorDataManager = new SensorDataManager(getApplicationContext());
 
-        sendNotification(message);
+        JSONObject jsObj = Util.convertStringToJSONObject(data.getString("data"));
+        int statusCode = data.getInt("code");
+
+        if(statusCode == 200) {
+            String message = "New Server Update!";
+            sendNotification(message);
+
+            // get values or set the defaults
+            String commandType = data.getString("commandType", "SET_BRIGHTNESS");   // SET_BRIGHTNESS
+            int brightnessValue = data.getInt("brightnessValue", 100);              // [0-255]
+            float lightSensorValue = data.getFloat("lightSensorValue", 800);        // lux
+            sessionManager.setPreferences(commandType, brightnessValue, lightSensorValue);
+
+            switch (Util.COMMAND_TYPES.valueOf(commandType)) {
+                case SET_BRIGHTNESS: {
+                    BrightnessHelper brightnessHelper = new BrightnessHelper(getContentResolver());
+                    if (brightnessValue > 0 && brightnessValue < 255) {
+                        brightnessHelper.setBrightnessLevel(brightnessValue);
+                    }
+                } break;
+                case SET_BRIGHTNESS_LOWER:
+                case SET_BRIGHTNESS_GREATER: {
+                    sensorDataManager.stopBrightnessLightSensorService();
+                    sensorDataManager.startBrightnessAlarmService();
+                } break;
+                case SET_BRIGHTNESS_LIGHT_LOWER:
+                case SET_BRIGHTNESS_LIGHT_GREATER: {
+                    sensorDataManager.stopBrightnessAlarmService();
+                    sensorDataManager.startBrightnessLightSensorService();
+                } break;
+            }
+        }
 
     }
 
