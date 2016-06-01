@@ -19,12 +19,12 @@ module.exports = {
 		app.post('/api/devices/:deviceId/rules', function (req, res) {
 			var message = null;
 			var item = req.body;
-
+			console.log(item);
 			var callback = function(id){
 				if(id > 0){
 				  	message = {
 						code: 200,
-						deviceId: id
+						rule_id: id
 					};
 				}else{
 					message = {
@@ -51,7 +51,7 @@ module.exports = {
 			var item = req.body;
 
 			var callback = function(rules){
-				if(rules.length > 0){
+				if(rules.length != null){
 				  	message = {
 						code: 200,
 						data: rules

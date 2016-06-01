@@ -64,9 +64,9 @@ module.exports = {
 		app.get('/api/users/:userId/devices', function (req, res) {
 			var message = null;
 			var item = req.body;
-
+			
 			var callback = function(devices){
-				if(devices.length > 0){
+				if(devices != null){
 				  	message = {
 						code: 200,
 						data: devices

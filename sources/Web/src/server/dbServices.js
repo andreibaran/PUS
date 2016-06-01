@@ -245,7 +245,7 @@ module.exports = {
 
 	addRule : function(deviceId, rule, callback){
 		console.log("> add rule");
-		connection.query('insert into rules (command_type, brightness_value, ambient_light_value, activated) values ("'+device.command_type+'","'+device.brightness_value+'","'+device.ambient_light_value+'","'+device.activated + '")',function(err, rows) {
+		connection.query('insert into rules (device_id, command_type, brightness_value, ambient_light_value, activated) values ("'+deviceId+'","'+rule.command_type+'","'+rule.brightness_value+'","'+rule.ambient_light_value+'","'+rule.activated + '")',function(err, rows) {
 			if (!err){
 				callback(rows.insertId);
 			}else{

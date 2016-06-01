@@ -39,7 +39,7 @@
 			<div class="field">
 				<label>Command Type</label>
 				<div class="ui selection dropdown">
-					<input type="hidden" name="command_type">
+					<input type="hidden" id="command_type" ng-model="vm.rule.command_type">
 					<i class="dropdown icon"></i>
 					<div class="default text">Command Type</div>
 					<div class="menu">
@@ -54,19 +54,19 @@
 			<div class="field">
 				<label>Brightness Value</label>
 				<div class="ui icon input">
-					<input type="text" placeholder="Brightness Value [0-255]">
+					<input type="text" placeholder="Brightness Value [0-255]" ng-model="vm.rule.brightness_value">
 					<i class="sun icon"></i>
 				</div>
 			</div>
 			<div class="field">
 				<label>Ambient Light Thresold Value</label>
 				<div class="ui icon input">
-					<input type="text" placeholder="Ambient Light Value [0-14.000]">
+					<input type="text" placeholder="Ambient Light Value [0-14.000]" ng-model="vm.rule.ambient_light_value">
 					<i class="lightbulb icon"></i>
 				</div>
 			</div>
 		</div>
-		<div class="ui submit button">Submit</div>
+		<div class="ui submit button" ng-click="vm.createRule()">Submit</div>
 
 		<h3>Current Rules</h3>
 		<table class="ui striped table">
@@ -79,28 +79,13 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td>SET BRIGHTNESS TO</td>
-					<td>150</td>
-					<td>0</td>
+
+				<tr ng-repeat="rule in vm.rules track by $index">
+					<td>{{rule.command_type}}</td>
+					<td>{{rule.brightness_value}}</td>
+					<td>{{rule.ambient_light_value}}</td>
 					<td>
-						<div class="tiny ui teal submit button">Activate</div>
-					</td>
-				</tr>
-				<tr>
-					<td>SET BRIGHTNESS IF IT'S LOWER THAN</td>
-					<td>120</td>
-					<td>0</td>
-					<td>
-						<div class="tiny ui teal submit button">Activate</div>
-					</td>
-				</tr>
-				<tr>
-					<td>SET BRIGHTNESS IF AMBIENT LIGHT IS LOWER THAN</td>
-					<td>100</td>
-					<td>500</td>
-					<td>
-						<div class="tiny ui teal submit button">Activate</div>
+						<div data-ng-class="(rule.activated) ? 'tiny ui teal submit button' : 'tiny ui red submit button'" ng-click="vm.updateRule(rule, $index)">Active</div>
 					</td>
 				</tr>
 			</tbody>
@@ -109,5 +94,10 @@
 
 </div>
 <script type="text/javascript">
-	$('.ui.dropdown').dropdown();
+	$('.ui.dropdown').dropdown({
+	    onChange: function(value, text, $selectedItem) {
+	    	console.log(value);
+	    	$('#command_type').val(value);
+	    }
+	});
 </script>
