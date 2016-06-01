@@ -9,7 +9,8 @@
     /* @ngInject */
     function DeviceService($http, $q, Session, config, logger) {
         var service = {
-            getDevices: getDevices
+            getDevices: getDevices,
+            getDevice: getDevice
         };
 
         return service;
@@ -22,6 +23,22 @@
             return $http({
                 method: 'GET',
                 url: config.apiBaseURL + 'users/' + user.id + '/devices',
+            }).then(function(response) {
+                if(response.data.code == 200) {
+                    return response.data;
+                } else {
+                    return $q.reject(response.data);
+                }
+            }, function(response) {
+                return $q.reject(response.data);
+            });
+        }
+
+        function getDevice(deviceId) {
+            var user = Session.get();
+            return $http({
+                method: 'GET',
+                url: config.apiBaseURL + 'users/' + user.id + '/devices/' + deviceId,
             }).then(function(response) {
                 if(response.data.code == 200) {
                     return response.data;

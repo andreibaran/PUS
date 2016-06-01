@@ -28,6 +28,13 @@
                 data: {restricted: true},
                 parent: 'master'
             })
+            .state('device', {
+                url: '/devices/:deviceId',
+                templateUrl:'app/views/device.html',
+                controller: 'DeviceController as vm',
+                data: {restricted: true},
+                parent: 'master'
+            })
             .state('share', {
                 url: '/share',
                 templateUrl:'app/views/share.html',

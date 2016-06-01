@@ -85,6 +85,36 @@ module.exports = {
 
 		/**************************************/
 		/*
+			Gets a device from the user's list
+			method: get
+			path: /api/users/:userId/devices/:deviceId
+			params: deviceId, userId
+			returns: 200 if ok
+		*/
+		/**************************************/
+		app.get('/api/users/:userId/devices/:deviceId', function (req, res) {
+			var message = null;
+			var item = req.body;
+
+			var callback = function(result){
+				if(result != null){
+				  	message = {
+						code: 200,
+						data: result
+					};
+				}else{
+					message = {
+						code: 500,
+						errorMessage: "Internal server error"
+					};
+				}
+				res.send(JSON.stringify(message));
+			};
+		  	dbServices.getDeviceFromUser(req.params.deviceId, req.params.userId, callback);  	
+		});
+
+		/**************************************/
+		/*
 			Removes a device from the user's list
 			method: delete
 			path: /api/users/:userId/devices/:deviceId

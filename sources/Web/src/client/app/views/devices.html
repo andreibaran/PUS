@@ -1,6 +1,6 @@
 <h1>My Devices</h1>
 <div class="ui link cards">
-	<div class="card" ng-repeat="device in vm.devices">
+	<div class="card" ng-repeat="device in vm.devices" ui-sref="device({deviceId: device.id})">
 		<div class="image">
 			<img src="/images/smartphone.png">
 		</div>
