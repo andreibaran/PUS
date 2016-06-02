@@ -11,7 +11,7 @@ var Device = function(id, deviceName, deviceRegistrationID, deviceUUID){
 	this.deviceUUID = deviceUUID;
 }
 
-var commandType = ['SET_BRIGHTNESS_LOWER', 'SET_BRIGHTNESS_GREATER', 'SET_BRIGHTNESS_LIGHT_LOWER', 'SET_BRIGHTNESS_LIGHT_GREATER'];
+var commandType = ['SET_BRIGHTNESS', 'SET_BRIGHTNESS_LOWER', 'SET_BRIGHTNESS_GREATER', 'SET_BRIGHTNESS_LIGHT_LOWER', 'SET_BRIGHTNESS_LIGHT_GREATER'];
 
 module.exports = {
 	init : function(theApp){
@@ -64,9 +64,9 @@ module.exports = {
 		app.get('/api/users/:userId/devices', function (req, res) {
 			var message = null;
 			var item = req.body;
-
+			
 			var callback = function(devices){
-				if(devices.length > 0){
+				if(devices != null){
 				  	message = {
 						code: 200,
 						data: devices
