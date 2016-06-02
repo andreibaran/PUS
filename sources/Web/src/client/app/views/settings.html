@@ -1,1 +1,22 @@
 <h1>Settings</h1>
+<div class="ui segment">
+	<h2>Personalize UI</h2>
+	<div class="ui form">
+		<div class="two fields">
+
+			<div class="field">
+				<label>Font size</label>
+				<input type="text" placeholder="14px" ng-model="vm.fontsize">
+			</div>
+			<div class="field">
+				<label>Actions</label>
+				<button class="ui icon button" ng-click=vm.increaseFont()>
+					<i class="blue icon plus"></i>
+				</button>
+				<button class="ui icon button" ng-click=vm.decreaseFont()>
+					<i class="red icon minus"></i>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

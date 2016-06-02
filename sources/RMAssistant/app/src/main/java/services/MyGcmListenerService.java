@@ -40,7 +40,7 @@ public class MyGcmListenerService extends GcmListenerService {
         JSONObject jsObj = Util.convertStringToJSONObject(data.getString("data"));
         int statusCode = data.getInt("code");
 
-        if(statusCode == 200) {
+        if(jsObj.length() > 0) {
             String message = "New Server Update!";
             sendNotification(message);
 

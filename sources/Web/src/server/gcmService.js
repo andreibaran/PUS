@@ -9,6 +9,8 @@ module.exports = {
 		var message = new gcm.Message({
 		    data: messageData
 		});
+		console.log(messageData);
+		
 
 		var regTokens = [];
 		regTokens.push(registrationId);

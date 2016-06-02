@@ -71,11 +71,27 @@
         }
 
         function updateRule(rule, index) {
+            rule.activated = 1;
+
             RulesService.updateRule($stateParams.deviceId, rule).then(function (response) {
                 console.log(response.data);
-                vm.rules[index] = response.data;
+                vm.rules[index] = rule;
+                
+                sendGCMUpdate($stateParams.deviceId, rule);
+
+                angular.forEach(vm.rules, function(value, key) {
+                    vm.rules[key].activated = 0;
+                });
             }, function (data) {
                 console.log(data);
+            });
+        }
+
+        function sendGCMUpdate(deviceId, rule) {
+            RulesService.sendGCMUpdate(deviceId, rule).then(function (response) {
+                console.log(response);
+            }, function (data) {
+                console.log(response);
             });
         }
     }

@@ -155,14 +155,16 @@ module.exports = {
 			var message = null;
 			var item = req.body;
 
+			console.log(item);
 			var callback = function(device){
+				console.log(device);
 				if(device != null){
 				  	message = {
 						code: 200,
 						data: {
-							commandType: item.command_type, 
-							brightnessValue: item.brightness_value,
-							lightSensorValue: item.light_sensor_value
+							commandType: item.commandType, 
+							brightnessValue: item.brightnessValue,
+							lightSensorValue: item.lightSensorValue
 						}
 					};
 					gcmServices.sendMessageToDevice(device.device_registration_id, message); 
