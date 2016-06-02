@@ -8,7 +8,7 @@ import org.json.JSONObject;
  */
 
 public abstract class HttpHandler {
-    public final String ServerBaseURL = "http://192.168.1.143:8080/api/";
+    public final String ServerBaseURL = "http://192.168.1.185:8080/api/";
     public abstract HttpUriRequest getHttpRequestMethod();
 
     public abstract void onResponse(JSONObject result);
