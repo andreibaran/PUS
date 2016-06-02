@@ -1,0 +1,43 @@
+.box{
+	width: 100%;
+	min-height: 100vh;
+	background-color: rgb(50,50,50);
+	float: left;
+	color: rgb(50,50,50);
+}
+
+.content{
+	width: 70%;
+	min-height: 70vh;
+	margin-top: 15vh;
+	background-color: white;
+	margin-left: 15%;
+	margin-bottom: 15vh;
+}
+
+.title{
+	margin-left: 40%;
+}
+
+.logo{
+	width: 50%;
+	margin-left: 25%;
+}
+
+h3{
+	margin-left: 10%;
+	color: rgb(127,159,30);
+}
+
+p{
+	margin-left: 10%;
+	margin-right: 10%;
+	font-size: 18px;
+}
+
+img{
+	margin-left:10%;
+	width: 80%;
+}
+
+
