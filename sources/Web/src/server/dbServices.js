@@ -190,8 +190,9 @@ module.exports = {
 
 		connection.query('SELECT d.* '
 			+'from devices d inner join users_devices u on d.id = u.device_id '
-			+'where u.user_id = '+userId+'', function(err, result, fields) {
+			+'where u.user_id = '+userId+' and d.id = ' + deviceId, function(err, result, fields) {
 			if (!err){
+				console.log()
 				if(result.length == 1){
 					var device = {
 						'id': result[0].id, 

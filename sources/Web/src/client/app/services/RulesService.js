@@ -11,7 +11,8 @@
         var service = {
             getRules: getRules,
             createRule: createRule,
-            updateRule: updateRule
+            updateRule: updateRule,
+            sendGCMUpdate: sendGCMUpdate
         };
 
         return service;
@@ -63,6 +64,7 @@
 
         function updateRule(deviceId, rule) {
             var requestData = {
+                id: rule.id,
                 device_id: deviceId,
                 command_type: rule.command_type,
                 brightness_value: rule.brightness_value,
@@ -70,9 +72,11 @@
                 activated: rule.activated
             };
 
+            console.log(requestData);
+
             var user = Session.get();
             return $http({
-                method: 'POST',
+                method: 'PUT',
                 url: config.apiBaseURL + 'devices/' + deviceId + '/rules/' + rule.id,
                 data: requestData,
             }).then(function(response) {
@@ -84,6 +88,31 @@
             }, function(response) {
                 return $q.reject(response.data);
             });
+        }
+
+        function sendGCMUpdate(deviceId, rule) {
+            var requestData = {
+                commandType: rule.command_type,
+                brightnessValue: rule.brightness_value,
+                lightSensorValue: rule.ambient_light_value,
+            };
+
+            var user = Session.get();
+            return $http({
+                method: 'POST',
+                url: config.apiBaseURL + 'users/' + user.id + '/devices/' + deviceId + '/sendmessage',
+                data: requestData,
+            }).then(function(response) {
+                if(response.data.code == 200) {
+                    return response.data;
+                } else {
+                    return $q.reject(response.data);
+                }
+            }, function(response) {
+                return $q.reject(response.data);
+            });
+
+            
         }
 
     }
