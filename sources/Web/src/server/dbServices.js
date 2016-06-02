@@ -218,9 +218,52 @@ module.exports = {
 			+'from devices d inner join users_devices u on d.id = u.device_id '
 			+'where u.user_id = '+userId+'', function(err, result, fields) {
 			if (!err){
+				console.log("< get devices by user");
 				callback(result);
 			}else{
 				console.log('# Error at get devices by user: '+err);
+				callback(null);
+			} 
+			
+		});
+	},
+
+	getAllRulesByDevice : function(deviceId, callback){
+		console.log("> get All Rules By Device");
+		connection.query('SELECT * '
+			+'from rules d where device_id = '+deviceId+'', function(err, result, fields) {
+			if (!err){
+				console.log("< get All Rules By Device");
+				callback(result);
+			}else{
+				console.log('# Error at get rules by device: '+err);
+				callback(null);
+			}
+			
+		});
+	},
+
+	addRule : function(deviceId, rule, callback){
+		console.log("> add rule");
+		connection.query('insert into rules (device_id, command_type, brightness_value, ambient_light_value, activated) values ("'+deviceId+'","'+rule.command_type+'","'+rule.brightness_value+'","'+rule.ambient_light_value+'","'+rule.activated + '")',function(err, rows) {
+			if (!err){
+				callback(rows.insertId);
+			}else{
+				console.log('# Error at add rule: '+err);
+				callback(null);
+			}
+		});
+	},
+
+	updateRule : function(deviceId, rule, callback){
+		console.log("> update rule");
+		connection.query('UPDATE rules SET activated = "'+rule.activated+'" '
+				+'where id = '+rule.id, function(err, result, fields) {
+			if (!err){
+				console.log("< update rule");
+				callback(true);
+			}else{
+				console.log('# Error at update preference: '+err);
 				callback(null);
 			} 
 		});
